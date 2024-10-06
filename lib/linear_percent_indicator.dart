@@ -53,7 +53,7 @@ class LinearPercentIndicator extends StatefulWidget {
   final LinearStrokeCap? linearStrokeCap;
 
   /// The border radius of the progress bar (Will replace linearStrokeCap)
-  final Radius? barRadius;
+  final BorderRadius? barRadius;
 
   ///alignment of the Row (leading-widget-center-trailing)
   final MainAxisAlignment alignment;
@@ -282,7 +282,7 @@ class _LinearPercentIndicatorState extends State<LinearPercentIndicator>
                 linearGradient: widget.linearGradient,
                 backgroundColor: widget.backgroundColor,
                 barRadius: widget.barRadius ??
-                    Radius.zero, // If radius is not defined, set it to zero
+                    BorderRadius.circular(0), // If radius is not defined, set it to zero
                 linearGradientBackgroundColor:
                     widget.linearGradientBackgroundColor,
                 maskFilter: widget.maskFilter,
@@ -349,7 +349,7 @@ class _LinearPainter extends CustomPainter {
   final Color progressColor;
   final Color? progressBorderColor;
   final Color backgroundColor;
-  final Radius barRadius;
+  final BorderRadius barRadius;
   final LinearGradient? linearGradient;
   final LinearGradient? linearGradientBackgroundColor;
   final MaskFilter? maskFilter;
@@ -384,7 +384,7 @@ class _LinearPainter extends CustomPainter {
     // Draw background first
     Path backgroundPath = Path();
     backgroundPath.addRRect(RRect.fromRectAndRadius(
-        Rect.fromLTWH(0, 0, size.width, size.height), barRadius));
+        Rect.fromLTWH(0, 0, size.width, size.height), barRadius.topRight));
     canvas.drawPath(backgroundPath, _paintBackground);
     canvas.clipPath(backgroundPath);
 
@@ -415,7 +415,7 @@ class _LinearPainter extends CustomPainter {
       linePath.addRRect(RRect.fromRectAndRadius(
           Rect.fromLTWH(
               size.width - size.width * progress, 0, xProgress, size.height),
-          barRadius));
+          barRadius.topRight));
     } else {
       if (linearGradient != null) {
         _paintLineBorder.shader =
@@ -424,12 +424,12 @@ class _LinearPainter extends CustomPainter {
       }
       if (progressBorderColor != null) {
         linePathBorder.addRRect(RRect.fromRectAndRadius(
-            Rect.fromLTWH(0, 0, xProgress, size.height), barRadius));
+            Rect.fromLTWH(0, 0, xProgress, size.height), barRadius.topRight));
       }
       linePath.addRRect(RRect.fromRectAndRadius(
           Rect.fromLTWH(
               factor, factor, xProgress - correction, size.height - correction),
-          barRadius));
+          barRadius.topRight));
     }
     if (progressBorderColor != null) {
       canvas.drawPath(linePathBorder, _paintLineBorder);
